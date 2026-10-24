@@ -1,0 +1,16 @@
+# Build output
+build/
+*.o
+*.obj
+*.res
+*.pdb
+*.ilk
+*.exe
+
+# Runtime files
+BatteryDeck.log
+
+# Editors
+.vs/
+.vscode/
+*.user

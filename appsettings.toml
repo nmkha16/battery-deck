@@ -1,0 +1,29 @@
+# BatteryDeck settings. Changes take effect after restarting BatteryDeck.
+# Times are in seconds. Set enabled = false to turn a provider off completely.
+
+[Logitech]
+# Logitech receivers (Unifying / Lightspeed / Bolt) and HID++ devices.
+# ([Native] from LGSTray is still accepted as an older name for this section.)
+enabled = true
+
+# Time until a failed battery read is retried
+retryTime = 10
+
+# Time between battery reads after a successful one
+pollPeriod = 600
+
+# Devices to ignore: any device whose name contains one of these
+disabledDevices = [
+]
+
+[GameSir]
+# GameSir Cyclone 2, wired or on its 2.4 GHz dongle.
+enabled = true
+retryTime = 30
+pollPeriod = 600
+
+[Bluetooth]
+# Bluetooth devices whose battery level Windows already tracks
+# (Xbox controllers over Bluetooth, earbuds, headsets, mice, keyboards, ...).
+enabled = true
+pollPeriod = 120

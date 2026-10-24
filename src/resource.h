@@ -1,0 +1,22 @@
+#pragma once
+
+#define IDI_APP 100
+
+#define IDR_BATTERY 201
+#define IDR_BATTERY_DARK 202
+#define IDR_CHARGING 203
+#define IDR_CHARGING_DARK 204
+#define IDR_HEADSET 205
+#define IDR_HEADSET_DARK 206
+#define IDR_KEYBOARD 207
+#define IDR_KEYBOARD_DARK 208
+#define IDR_MOUSE 209
+#define IDR_MOUSE_DARK 210
+#define IDR_MISSING 211
+#define IDR_MISSING_DARK 212
+#define IDR_IND_10 213
+#define IDR_IND_30 214
+#define IDR_IND_50 215
+#define IDR_IND_100 216
+#define IDR_GAMEPAD 217
+#define IDR_GAMEPAD_DARK 218

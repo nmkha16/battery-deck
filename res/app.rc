@@ -1,0 +1,48 @@
+#include <windows.h>
+#include "../src/resource.h"
+
+IDI_APP ICON "logo_black.ico"
+
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "app.manifest"
+
+IDR_BATTERY       RCDATA "Battery.png"
+IDR_BATTERY_DARK  RCDATA "Battery_dark.png"
+IDR_CHARGING      RCDATA "Charging.png"
+IDR_CHARGING_DARK RCDATA "Charging_dark.png"
+IDR_HEADSET       RCDATA "Headset.png"
+IDR_HEADSET_DARK  RCDATA "Headset_dark.png"
+IDR_KEYBOARD      RCDATA "Keyboard.png"
+IDR_KEYBOARD_DARK RCDATA "Keyboard_dark.png"
+IDR_MOUSE         RCDATA "Mouse.png"
+IDR_MOUSE_DARK    RCDATA "Mouse_dark.png"
+IDR_MISSING       RCDATA "Missing.png"
+IDR_MISSING_DARK  RCDATA "Missing_dark.png"
+IDR_IND_10        RCDATA "Indicator_10.png"
+IDR_IND_30        RCDATA "Indicator_30.png"
+IDR_IND_50        RCDATA "Indicator_50.png"
+IDR_IND_100       RCDATA "Indicator_100.png"
+IDR_GAMEPAD       RCDATA "Gamepad.png"
+IDR_GAMEPAD_DARK  RCDATA "Gamepad_dark.png"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "BatteryDeck"
+            VALUE "FileVersion", "1.0.0"
+            VALUE "ProductName", "BatteryDeck"
+            VALUE "ProductVersion", "1.0.0"
+            VALUE "OriginalFilename", "BatteryDeck.exe"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
