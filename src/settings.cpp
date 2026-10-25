@@ -17,6 +17,9 @@ const wchar_t* kOldUserKey = L"Software\\LGSTray";  // native LGSTray builds
 const wchar_t* kRunKey = L"Software\\Microsoft\\Windows\\CurrentVersion\\Run";
 const wchar_t* kRunValue = L"BatteryDeck";
 const wchar_t* kOldRunValue = L"LGSTrayGUI";  // LGSTray (.NET and native)
+// Explorer's per-app on/off switch for Run entries (what Task Manager's Startup tab edits).
+// Without an "enabled" record here, Windows may skip the Run entry at sign-in.
+const wchar_t* kApprovedKey = L"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run";
 
 std::wstring Trim(const std::wstring& s) {
     size_t b = s.find_first_not_of(L" \t\r\n");
@@ -209,6 +212,7 @@ void LoadSettings(const std::wstring& exeDir) {
     if (RegGetValueW(HKEY_CURRENT_USER, kRunKey, kOldRunValue, RRF_RT_REG_SZ, nullptr, nullptr, nullptr) ==
         ERROR_SUCCESS) {
         RegDeleteKeyValueW(HKEY_CURRENT_USER, kRunKey, kOldRunValue);
+        RegDeleteKeyValueW(HKEY_CURRENT_USER, kApprovedKey, kOldRunValue);
         SetAutostart(true);
         Log(L"Moved autostart entry to BatteryDeck");
     }
@@ -308,8 +312,17 @@ void SetCachedDeviceName(const std::wstring& id, const std::wstring& name) {
 }
 
 bool GetAutostart() {
-    return RegGetValueW(HKEY_CURRENT_USER, kRunKey, kRunValue, RRF_RT_REG_SZ, nullptr, nullptr, nullptr) ==
-           ERROR_SUCCESS;
+    if (RegGetValueW(HKEY_CURRENT_USER, kRunKey, kRunValue, RRF_RT_REG_SZ, nullptr, nullptr, nullptr) !=
+        ERROR_SUCCESS)
+        return false;
+    // Disabled in Task Manager: the first byte of the record is odd (01/03); enabled is 02/06.
+    BYTE approved[12]{};
+    DWORD size = sizeof(approved);
+    if (RegGetValueW(HKEY_CURRENT_USER, kApprovedKey, kRunValue, RRF_RT_REG_BINARY, nullptr, approved, &size) ==
+            ERROR_SUCCESS &&
+        size > 0 && (approved[0] & 1))
+        return false;
+    return true;
 }
 
 void SetAutostart(bool enabled) {
@@ -319,7 +332,10 @@ void SetAutostart(bool enabled) {
         std::wstring value = L"\"" + std::wstring(exe) + L"\"";
         RegSetKeyValueW(HKEY_CURRENT_USER, kRunKey, kRunValue, REG_SZ, value.c_str(),
                         (DWORD)((value.size() + 1) * sizeof(wchar_t)));
+        const BYTE approved[12] = {2};  // enabled, no "disabled at" time
+        RegSetKeyValueW(HKEY_CURRENT_USER, kApprovedKey, kRunValue, REG_BINARY, approved, sizeof(approved));
     } else {
         RegDeleteKeyValueW(HKEY_CURRENT_USER, kRunKey, kRunValue);
+        RegDeleteKeyValueW(HKEY_CURRENT_USER, kApprovedKey, kRunValue);
     }
 }
